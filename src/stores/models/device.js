@@ -11,9 +11,8 @@ class Device {
     portrait: string,
     landscape: string
   };
-  id: ?string;
+  id: string;
   userAgent: string;
-
   settings: Settings = new Settings();
 
   constructor(device: Object) {

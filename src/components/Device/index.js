@@ -44,9 +44,10 @@ type Props = {
 @observer class DeviceComponent extends Component {
   props: Props;
   settings: Settings = new Settings();
+  webview: Object;
   @observable takingScreenshot = false;
 
-  setWebView = webview => {
+  setWebView = (webview: Object) => {
     if (webview) {
       this.webview = webview;
       this.webview.addEventListener('did-stop-loading', () => {
@@ -60,10 +61,9 @@ type Props = {
 
   @action takeSnapshot = () => {
     this.takingScreenshot = true;
-
     this.webview.capturePage(image => {
       const date = new Date();
-      const dateFormat = `${date.getDate()}.${date.getMonth()}.${date.getYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      const dateFormat = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
       window.fs.writeFile(
         `screenshots/sizzy_${this.props.device.id}_${dateFormat}_screenshot.png`,
         image.toPNG(),
