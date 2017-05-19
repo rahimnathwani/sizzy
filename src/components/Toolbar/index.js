@@ -1,37 +1,24 @@
 // @flow
-import typeof store from "stores/store";
-import type { InputEvent } from "config/types";
-import { onEnter } from "utils/input-utils";
+import typeof store from 'stores/store';
 
-import React, { Component } from "react";
-import { inject, observer } from "mobx-react";
+import React, {Component} from 'react';
+import {inject, observer} from 'mobx-react';
+import views from 'config/views';
+
+//images
+import LogoSvg from 'img/logo.svg';
 
 //styled-components
-import {
-  Toolbar,
-  ToolbarButton,
-  Zoom,
-  ZoomLabel,
-  ZoomLevel,
-  ToolbarButtons,
-  ToolbarRightSide,
-  ToolbarLeft,
-  AppName,
-  Filters,
-  ButtonIcon,
-  UrlInput,
-  UrlWrap,
-  GoIcon
-} from "./styles";
-import { OS, DEVICE_TYPES } from "config/tags";
+import {Toolbar, ToolbarLeft, ToolbarRight, Logo, UrlBar} from './styles';
 
 //components
-import FilterIcon from "components/FilterIcon";
+import HeaderLink from 'components/HeaderLink';
 
 type Props = {
   store: any | store
 };
-@inject("store")
+
+@inject('store')
 @observer
 class ToolbarComponent extends Component {
   static defaultProps = {
@@ -41,102 +28,61 @@ class ToolbarComponent extends Component {
   props: Props;
 
   render() {
-    const { store: { app } } = this.props;
-    const { filters, settings } = app;
-    const { zoom, orientation } = settings;
-
-    const smallZoom = zoom < 50;
+    const {store} = this.props;
+    const {app, router} = store;
+    const {isValidUrl} = app;
 
     return (
       <Toolbar>
 
         <ToolbarLeft>
-          <AppName> Sizzy </AppName>
-          <UrlWrap>
-            <UrlInput
-              {...onEnter(app.loadCurrentUrl)}
-              onChange={(e: InputEvent) => app.setUrl(e.target.value)}
-              value={app.url}
-              type="text"
-              placeholder="Enter URL"
-            />
-            <GoIcon
-              onClick={app.loadCurrentUrl}
-              title="Go"
-              name="arrow-circle-right"
-            />
-          </UrlWrap>
+          <Logo
+            onClick={app.resetToHome}
+            src={LogoSvg}
+            alt="Sizzy"
+            width="70px"
+          />
+          {isValidUrl && <UrlBar />}
         </ToolbarLeft>
 
-        <Filters>
-          <FilterIcon
-            title="Toggle Apple devices"
-            toggleFilterfn={app.toggleFilter}
-            filters={filters}
-            toggle={OS.APPLE}
-            icon="apple"
+        <ToolbarRight>
+          <HeaderLink
+            icon="github"
+            text="Code"
+            link="https://github.com/kitze/sizzy"
           />
-          <FilterIcon
-            title="Toggle Android devices"
-            toggleFilterfn={app.toggleFilter}
-            filters={filters}
-            toggle={OS.ANDROID}
-            icon="android"
+          <HeaderLink
+            icon="twitter"
+            text="Follow"
+            link="https://twitter.com/sizzyapp"
           />
-          <FilterIcon
-            title="Toggle mobile devices"
-            toggleFilterfn={app.toggleFilter}
-            filters={filters}
-            toggle={DEVICE_TYPES.PHONE}
-            icon="mobile"
+          <HeaderLink
+            icon="question-circle"
+            text="FAQ"
+            view={views.faq}
+            router={router}
           />
-          <FilterIcon
-            title="Toggle tablet devices"
-            toggleFilterfn={app.toggleFilter}
-            filters={filters}
-            toggle={DEVICE_TYPES.TABLET}
-            icon="tablet"
+          <HeaderLink
+            icon="money"
+            text="Support"
+            link="https://opencollective.com/sizzy"
           />
-        </Filters>
-
-        <ToolbarRightSide>
-          <ToolbarButtons>
-            <ToolbarButton
-              disabled={smallZoom}
-              title="Toggle sizes"
-              onClick={app.settings.toggleShowSizes}
-            >
-              <ButtonIcon name="sort-numeric-asc" />
-            </ToolbarButton>
-            <ToolbarButton
-              title="Reset all settings"
-              onClick={app.resetAllSettings}
-            >
-              <ButtonIcon name="repeat" />
-            </ToolbarButton>
-            <ToolbarButton
-              title="Switch orientation"
-              onClick={app.settings.toggleOrientation}
-            >
-              <ButtonIcon orientation={orientation} name="mobile" />
-            </ToolbarButton>
-            <ToolbarButton title="Switch theme" onClick={app.switchTheme}>
-              <ButtonIcon name="paint-brush" />
-            </ToolbarButton>
-          </ToolbarButtons>
-
-          <Zoom>
-            <ZoomLabel> Zoom </ZoomLabel>
-            <ZoomLevel>({zoom}%)</ZoomLevel>
-            <input
-              type="range"
-              min="25"
-              max="100"
-              onChange={app.settings.setZoom}
-              value={zoom}
-            />
-          </Zoom>
-        </ToolbarRightSide>
+          <HeaderLink
+            icon="book"
+            text="Story"
+            link="https://medium.com/@kitze/introducing-sizzy-a-tool-for-developing-responsive-websites-crazy-fast-39a8c0061992"
+          />
+          <HeaderLink
+            icon="video-camera"
+            text="Coding"
+            link="https://www.youtube.com/playlist?list=PLeRG3Z4BGWXR1yE8176LxtAj0Xyb_VI7L"
+          />
+          <HeaderLink
+            icon="chrome"
+            text="Extension"
+            link="https://chrome.google.com/webstore/detail/sizzy/nfhlbmjiiogoelaflfclodlkncbdiefo"
+          />
+        </ToolbarRight>
 
       </Toolbar>
     );

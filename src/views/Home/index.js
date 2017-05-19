@@ -1,21 +1,24 @@
 // @flow
-import typeof store from "stores/store";
-import React, { Component } from "react";
-import { inject, observer } from "mobx-react";
+import typeof store from 'stores/store';
+import React, {Component} from 'react';
+import {inject, observer} from 'mobx-react';
 
 //styled-components
-import { Home, Devices } from "./styles";
+import {Home, Content} from './styles';
 
 //components
-import Device from "components/Device";
-import Toolbar from "components/Toolbar";
+import WelcomeBox from 'components/WelcomeBox';
+import Sizzy from 'components/Sizzy';
+
+//external
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 type Props = {
   store: any | store,
   children?: React.Element<*>
 };
 
-@inject("store")
+@inject('store')
 @observer
 class HomeComponent extends Component {
   props: Props;
@@ -25,30 +28,25 @@ class HomeComponent extends Component {
   };
 
   render() {
-    const { store: { app }, children } = this.props;
-    const { theme, urlToLoad, url, isVisible, settings, devices, isValidUrl } = app;
-    const { zoom, orientation } = settings;
+    const {store: {app}} = this.props;
+
+    const {isValidUrl, urlIsLoaded} = app;
 
     return (
       <Home>
-        <Toolbar />
-        {isValidUrl &&
-          <Devices>
-            {devices.map((device, key) => (
-              <Device
-                key={key}
-                orientation={orientation}
-                visible={isVisible(device)}
-                zoom={zoom}
-                theme={theme}
-                url={url}
-                urlToLoad={urlToLoad}
-                device={device}
-              >
-                {children}
-              </Device>
-            ))}
-          </Devices>}
+
+        <Content>
+
+          <ReactCSSTransitionGroup
+            transitionName="fadeout"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={400}
+          >
+            {!urlIsLoaded && <WelcomeBox />}
+          </ReactCSSTransitionGroup>
+
+          {isValidUrl && <Sizzy />}
+        </Content>
       </Home>
     );
   }

@@ -1,25 +1,31 @@
 // @flow
-import { observable, action, computed } from "mobx";
-import Settings from "stores/models/settings";
+import Settings from 'stores/models/settings';
 
 class Device {
-
   name: ?string;
   tags: ?Array<string>;
   width: ?number;
   height: ?number;
   iconName: ?string;
+  keyboardImg: ?{
+    portrait: string,
+    landscape: string
+  };
+  id: ?string;
+  userAgent: string;
 
   settings: Settings = new Settings();
 
-  constructor(device: Object){
+  constructor(device: Object) {
     this.name = device.name;
     this.tags = device.tags;
     this.width = device.width;
     this.height = device.height;
     this.iconName = device.iconName;
+    this.id = device.id;
+    this.userAgent = device.userAgent;
+    this.keyboardImg = device.keyboardImg;
   }
-
 }
 
 export default Device;

@@ -1,11 +1,11 @@
 // @flow
-import type { InputEvent, DeviceSettings } from "config/types";
+import type {DeviceSettings} from 'config/types';
 
-import store from "stores/store";
+import store from 'stores/store';
 
-import { observable, action, computed } from "mobx";
-import ORIENTATIONS from "config/orientations";
-import { getOppositeOrientation } from "utils/utils";
+import {observable, action} from 'mobx';
+import ORIENTATIONS from 'config/orientations';
+import {getOppositeOrientation} from 'utils/utils';
 
 class Settings {
   constructor(global: ?boolean) {
@@ -20,11 +20,19 @@ class Settings {
 
   @observable zoom: number = 100;
   @observable showSizes: boolean = true;
+  @observable showKeyboard: boolean = false;
   @observable orientation: string = ORIENTATIONS.PORTRAIT;
 
   /* Actions */
 
-  @action update = ({ zoom, orientation, showSizes }: DeviceSettings) => {
+  @action update = ({
+    zoom,
+    orientation,
+    showSizes,
+    showKeyboard
+  }: DeviceSettings) => {
+    console.log('showKeyboard', showKeyboard);
+
     if (zoom !== undefined) {
       this.zoom = zoom;
     }
@@ -33,6 +41,9 @@ class Settings {
     }
     if (showSizes !== undefined) {
       this.showSizes = showSizes;
+    }
+    if (showKeyboard !== undefined) {
+      this.showKeyboard = showKeyboard;
     }
   };
 
@@ -47,24 +58,31 @@ class Settings {
     this.zoom = 100;
     this.orientation = ORIENTATIONS.PORTRAIT;
     this.showSizes = true;
+    this.showKeyboard = false;
   };
 
-  @action setZoom = (e: InputEvent) => {
-    const zoom = e.target.value;
+  @action setZoom = (value: number) => {
+    const zoom = value;
     this.zoom = zoom;
-    this.modifyGlobalSettings({ zoom });
+    this.modifyGlobalSettings({zoom});
   };
 
   @action toggleShowSizes = () => {
     const showSizes = !this.showSizes;
     this.showSizes = showSizes;
-    this.modifyGlobalSettings({ showSizes });
+    this.modifyGlobalSettings({showSizes});
   };
 
   @action toggleOrientation = () => {
     const orientation = getOppositeOrientation(this.orientation);
     this.orientation = orientation;
-    this.modifyGlobalSettings({ orientation });
+    this.modifyGlobalSettings({orientation});
+  };
+
+  @action toggleKeyboard = () => {
+    let showKeyboard = !this.showKeyboard;
+    this.showKeyboard = showKeyboard;
+    this.modifyGlobalSettings({showKeyboard});
   };
 
   /* Helpers */
@@ -72,7 +90,8 @@ class Settings {
   getValues = (): DeviceSettings => ({
     zoom: this.zoom,
     showSizes: this.showSizes,
-    orientation: this.orientation
+    orientation: this.orientation,
+    showKeyboard: this.showKeyboard
   });
 }
 

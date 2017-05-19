@@ -13,6 +13,12 @@ body {
   overflow-x: hidden;
 }
 
+body.hide-scroll {
+  max-height: 100vh;
+  height: 100vh;
+  position: fixed;
+}
+
 #root {
   display: inline-flex;
   flex-direction: column;
@@ -23,4 +29,22 @@ body {
 
 *, *:after, *:before {
   box-sizing: border-box;
+}
+
+.fadeout-enter {
+  opacity: 0.01;
+}
+
+.fadeout-enter.fadeout-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fadeout-leave {
+  opacity: 1;
+}
+
+.fadeout-leave.fadeout-leave-active {
+  opacity: 0;
+  transition: opacity 400ms ease-in;
 }
