@@ -24,7 +24,8 @@ import {
   buttonIconClassname,
   Keyboard,
   WhiteOverlay,
-  FrameWrap
+  FrameWrap,
+  NameAndSize
 } from './styles';
 
 type Props = {
@@ -149,18 +150,24 @@ type Props = {
 
     return (
       <Device appHasFocusedDevice={appHasFocusedDevice} style={deviceStyle}>
-        <Header>
-          <Buttons>
-            {!smallZoom &&
-              <Button
-                onClick={() => toggleFocusDevice(deviceId)}
-                title="Settings"
-              >
-                <ButtonIcon className={buttonIconClassname} name="bullseye" />
-              </Button>}
 
-            {!smallZoom &&
-              isElectron &&
+        <Header>
+          <NameAndSize>
+            <Name small={smallZoom}> {name} </Name>
+            <Size>
+              {showSize && <span> {'('}{width} x {height}{')'}</span>}
+            </Size>
+          </NameAndSize>
+
+          <Buttons>
+            <Button
+              onClick={() => toggleFocusDevice(deviceId)}
+              title="Settings"
+            >
+              <ButtonIcon className={buttonIconClassname} name="bullseye" />
+            </Button>
+
+            {isElectron &&
               <Button
                 disabled={this.takingScreenshot}
                 onClick={this.takeSnapshot}
@@ -173,18 +180,17 @@ type Props = {
                 />
               </Button>}
 
-            {!smallZoom &&
-              <Button
-                value={settings.showKeyboard}
-                onClick={settings.toggleKeyboard}
-                title="Keyboard"
-              >
-                <ButtonIcon
-                  className={buttonIconClassname}
-                  fontSize={14}
-                  name="keyboard-o"
-                />
-              </Button>}
+            <Button
+              value={settings.showKeyboard}
+              onClick={settings.toggleKeyboard}
+              title="Keyboard"
+            >
+              <ButtonIcon
+                className={buttonIconClassname}
+                fontSize={14}
+                name="keyboard-o"
+              />
+            </Button>
 
             <Button
               onClick={settings.toggleOrientation}
@@ -197,12 +203,6 @@ type Props = {
               />
             </Button>
           </Buttons>
-
-          <Name small={smallZoom}> {name} </Name>
-
-          <Size>
-            {showSize && <span>{width} x {height} </span>}
-          </Size>
         </Header>
 
         {urlToLoad &&

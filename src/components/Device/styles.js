@@ -30,9 +30,8 @@ export const Device = styled.div`
 `;
 
 export const Header = styled.div`
-  ${flex.horizontal}
-  ${flex.centerHorizontal}
-  ${flex.spaceBetween}
+  ${flex.vertical}
+  ${flex.centerVerticalV}
   height: ${deviceHeader.height}px;
   width: 100%;
 `;
@@ -41,14 +40,12 @@ export const Name = styled.div`
   font-size: ${p => (p.small ? 12 : 15)}px;
   font-weight: 400;
   color: ${p => p.theme.color};
-  text-align: center;
-  flex: 1;
 `;
 
 export const Buttons = styled.div`
   ${flex.horizontal}
-  ${flex.centerHorizontalV}
   flex: 1;
+  margin-top: 8px;
 `;
 
 export const Button = styled.div`
@@ -86,12 +83,12 @@ export const Button = styled.div`
    `)}
 `;
 
-export const Size = styled.div`
+export const Size = styled.span`
   ${flex.horizontal}
-  ${flex.justifyEnd}
   font-size: 11px;
-  color: white;
+  color: #778398;
   flex: 1;
+  margin-left: 7px;
 `;
 
 export const ButtonIcon = styled($Icon)`
@@ -120,7 +117,12 @@ export const WhiteOverlay = styled.div`
   z-index: 9999999999;
 `;
 
+export const NameAndSize = styled.div`
+  ${flex.horizontal}  
+  ${flex.centerHorizontalV}  
+  width: 100%;
+`;
+
 export const FrameWrap = styled.div`
   position: absolute;
-  top: ${p => p.top}px;
 `;
