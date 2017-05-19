@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="HandheldFriendly" content="true">
-    
+    <style> ::selection { background: white; /* WebKit/Blink Browsers */ } </style>
     <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,500' rel='stylesheet' type='text/css'>
     <title>Sizzy</title>
     <script>
@@ -39,9 +39,14 @@
     <meta name="twitter:title" content="Sizzy">
     <meta name="twitter:description" content="A tool for developing responsive websites crazy-fast. Preview changes on multiple devices instantly.">
     <meta name="twitter:image" content="http://i.imgur.com/BtyqVle.gif">
+  
+    <script>
+      const fs = require('fs');
+      window.fs = fs;
+    </script>
     
   </head>
   <body>
-    <div id="root"></div>
+  <div id="root"></div>
   </body>
 </html>

@@ -1,6 +1,7 @@
 // @flow
 import Settings from 'stores/models/settings';
 import DeviceType from 'stores/models/device';
+import {action, observable} from 'mobx';
 
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
@@ -9,6 +10,7 @@ import ORIENTATIONS from 'config/orientations';
 
 //external
 import Framed from 'react-frame-component';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 //styled-components
 import {
@@ -20,7 +22,9 @@ import {
   Buttons,
   Size,
   buttonIconClassname,
-  Keyboard
+  Keyboard,
+  WhiteOverlay,
+  FrameWrap
 } from './styles';
 
 type Props = {
@@ -39,6 +43,7 @@ type Props = {
 @observer class DeviceComponent extends Component {
   props: Props;
   settings: Settings = new Settings();
+  @observable takingScreenshot = false;
 
   setWebView = webview => {
     if (webview) {
@@ -52,16 +57,20 @@ type Props = {
     }
   };
 
-  takeSnapshot = () => {
+  @action takeSnapshot = () => {
+    this.takingScreenshot = true;
+
     this.webview.capturePage(image => {
       const date = new Date();
       const dateFormat = `${date.getDate()}.${date.getMonth()}.${date.getYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
       window.fs.writeFile(
         `screenshots/sizzy_${this.props.device.id}_${dateFormat}_screenshot.png`,
         image.toPNG(),
-        function(err) {
+        err => {
           if (err) throw err;
-          console.log("It's saved!");
+          setTimeout(() => {
+            this.takingScreenshot = false;
+          }, 500);
         }
       );
     });
@@ -112,11 +121,7 @@ type Props = {
     //highly dynamic styles must be inline
     const frameProps = {
       style: {
-        transform: `scale(${zoomValue})`,
-        transformOrigin: 'top left',
-        position: 'absolute',
         border: 'none',
-        top: deviceHeaderTotalHeight,
         left: 0,
         borderRadius: 3,
         backgroundColor: 'white',
@@ -156,8 +161,16 @@ type Props = {
 
             {!smallZoom &&
               isElectron &&
-              <Button onClick={this.takeSnapshot} title="Camera">
-                <ButtonIcon className={buttonIconClassname} name="camera" />
+              <Button
+                disabled={this.takingScreenshot}
+                onClick={this.takeSnapshot}
+                title="Camera"
+              >
+                <ButtonIcon
+                  fontSize={13}
+                  className={buttonIconClassname}
+                  name="camera"
+                />
               </Button>}
 
             {!smallZoom &&
@@ -193,7 +206,15 @@ type Props = {
         </Header>
 
         {urlToLoad &&
-          <div>
+          <FrameWrap
+            style={{
+              width: iframeWidth,
+              height: iframeHeight,
+              transform: `scale(${zoomValue})`,
+              top: deviceHeaderTotalHeight,
+              transformOrigin: 'top left'
+            }}
+          >
             {!isElectron && <iframe src={urlToLoad} {...frameProps} />}
 
             {isElectron &&
@@ -205,6 +226,14 @@ type Props = {
                 {...frameProps}
               />}
 
+            <ReactCSSTransitionGroup
+              transitionName="screenshot"
+              transitionEnterTimeout={200}
+              transitionLeaveTimeout={200}
+            >
+              {isElectron && this.takingScreenshot && <WhiteOverlay />}
+            </ReactCSSTransitionGroup>
+
             {shouldShowKeyboard &&
               <Keyboard
                 src={
@@ -214,7 +243,7 @@ type Props = {
                       : keyboardImg.portrait)
                 }
               />}
-          </div>}
+          </FrameWrap>}
 
         {/* Allows Sizzy to be used as a component/plugin in react-storybook, etc */}
         {hasChildren &&

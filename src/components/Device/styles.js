@@ -35,7 +35,6 @@ export const Header = styled.div`
   ${flex.spaceBetween}
   height: ${deviceHeader.height}px;
   width: 100%;
-  margin-bottom: 15px;
 `;
 
 export const Name = styled.div`
@@ -75,6 +74,11 @@ export const Button = styled.div`
     color: rgba(255, 255, 255, 0.8);
   `)}
   
+  ${p => cond(p.disabled, `
+    cursor: default;
+    opacity: 0.2;
+  `)}
+  
    ${p => cond(p.value === true, `
       .${buttonIconClassname}{
         color: rgba(255, 255, 255, 0.8);
@@ -102,4 +106,21 @@ export const Keyboard = styled.img`
   position: absolute;
   bottom: 0;
   z-index: 999;
+`;
+
+export const WhiteOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 9999999999;
+`;
+
+export const FrameWrap = styled.div`
+  position: absolute;
+  top: ${p => p.top}px;
 `;
