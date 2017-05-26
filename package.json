@@ -37,12 +37,6 @@
     "styled-components": "1.4.5",
     "valid-url": "^1.0.9"
   },
-  "jest": {
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ]
-  },
   "homepage": "./",
   "main": "src/electron-starter.js",
   "babel": {
