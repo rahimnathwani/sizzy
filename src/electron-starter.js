@@ -14,7 +14,7 @@ let mainWindow;
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, hyareight: 600});
+  mainWindow = new BrowserWindow({width: 900, height: 680});
 
   mainWindow.loadURL(
     isDev
@@ -36,7 +36,7 @@ function createWindow() {
   });
 }
 
-require('electron-debug')({showDevTools: true, enabled: true});
+require('electron-debug')({showDevTools: true});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

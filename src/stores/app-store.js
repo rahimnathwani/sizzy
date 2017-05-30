@@ -157,7 +157,7 @@ class AppStore {
 
       //if invalid url (doesn't have protcol), try to append current protocol
       if (!isWebUri(urlToLoad)) {
-        const urlWithProtocol = `${protocol}//${urlToLoad}`;
+        const urlWithProtocol = `${window.isElectron ? 'http:' : protocol}//${urlToLoad}`;
         urlToLoad = urlWithProtocol;
       }
 
@@ -165,7 +165,9 @@ class AppStore {
       let oppositeProtocol = getOppositeProtocol(protocol);
 
       let shouldRefreshPage =
-        !urlIsSameProtocol && redirectOnProtocolChange === true;
+        !window.isElectron &&
+        !urlIsSameProtocol &&
+        redirectOnProtocolChange === true;
 
       if (shouldRefreshPage && oppositeProtocol !== false) {
         const newUrl = `${oppositeProtocol}//${host}?url=${urlToLoad}`;
@@ -177,7 +179,7 @@ class AppStore {
       this.urlToLoad = urlToLoad;
       this.url = urlToLoad;
 
-      if (insertIntoUrl) {
+      if (insertIntoUrl && !window.isElectron) {
         store.router.goTo(views.home, {}, store, {url: this.urlToLoad});
       }
     }
@@ -203,10 +205,18 @@ class AppStore {
     this.themeIndex = newThemeIndex >= themeKeys.length ? 0 : newThemeIndex;
   };
 
-  @action resetToHome = () => (window.location.href = window.location.origin);
+  @action resetToHome = () => {
+    if (window.isElectron) {
+      this.urlToLoad = null;
+      this.url = '';
+      this.showWelcomeContent = true;
+    } else {
+      window.location.href = window.location.origin;
+    }
+  };
 
   @action loadExampleUrl = () => {
-    const exampleUrl = `${window.location.protocol}//kitze.io`;
+    const exampleUrl = `${window.isElectron ? 'http:' : window.location.protocol}//kitze.io`;
     this.setUrl(exampleUrl);
     this.setUrltoLoad(exampleUrl, false, true);
   };

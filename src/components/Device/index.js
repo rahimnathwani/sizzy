@@ -125,7 +125,6 @@ type Props = {
         border: 'none',
         left: 0,
         borderRadius: 3,
-        backgroundColor: 'white',
         ...theme.iframeStyle,
         width: iframeWidth,
         height: iframeHeight,
@@ -215,7 +214,8 @@ type Props = {
               transformOrigin: 'top left'
             }}
           >
-            {!isElectron && <iframe src={urlToLoad} {...frameProps} />}
+            {!isElectron &&
+              <iframe title={name} src={urlToLoad} {...frameProps} />}
 
             {isElectron &&
               <webview

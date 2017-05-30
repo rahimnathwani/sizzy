@@ -14,6 +14,7 @@ import {MobxRouter} from 'mobx-router';
 
 //components
 import Toolbar from 'components/Toolbar';
+import Home from 'views/Home';
 
 type Props = {
   store: any | store
@@ -37,7 +38,7 @@ class AppComponent extends Component {
         <App>
           <Toolbar />
           <Body className={loading || !isValidUrl ? 'hide-scroll' : ''} />
-          <MobxRouter />
+          {window.isElectron ? <Home /> : <MobxRouter />}
         </App>
       </ThemeProvider>
     );

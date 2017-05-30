@@ -46,7 +46,7 @@ class WelcomeBoxComponent extends Component {
 
   render() {
     const {store} = this.props;
-    const {app, router} = store;
+    const {app} = store;
     const {loading, showWelcomeContent} = app;
 
     return (
@@ -79,7 +79,7 @@ class WelcomeBoxComponent extends Component {
             Click here to load an example!
           </ExampleLink>
 
-          <ChromeExtensionLink />
+          {!window.isElectron && <ChromeExtensionLink />}
         </Content>
 
         {!loading &&

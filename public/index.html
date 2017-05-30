@@ -43,6 +43,7 @@
     <script>
       const fs = require('fs');
       window.fs = fs;
+      window.isElectron = !!(window.process && window.process.versions.electron);
     </script>
     
   </head>
