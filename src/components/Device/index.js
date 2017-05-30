@@ -28,6 +28,9 @@ import {
   NameAndSize
 } from './styles';
 
+//electron
+const {os, fs} = window;
+
 type Props = {
   device: DeviceType,
   children?: React.Element<*>,
@@ -64,8 +67,12 @@ type Props = {
     this.webview.capturePage(image => {
       const date = new Date();
       const dateFormat = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      window.fs.writeFile(
-        `screenshots/sizzy_${this.props.device.id}_${dateFormat}_screenshot.png`,
+      const directory = `${os.homedir()}/Sizzy`;
+      if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory);
+      }
+      fs.writeFile(
+        `${directory}/sizzy_${this.props.device.id}_${dateFormat}_screenshot.png`,
         image.toPNG(),
         err => {
           if (err) throw err;

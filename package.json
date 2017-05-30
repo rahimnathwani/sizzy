@@ -93,7 +93,8 @@
     "package": "electron-packager . Sizzy --overwrite --platform=darwin --icon=src/icon.icns",
     "prettier-all": "prettier --single-quote --bracket-spacing=false --write 'src/**/*.js'",
     "precommit": "lint-staged",
-    "checks": "yarn flow && yarn test"
+    "checks": "yarn flow && yarn test",
+    "bnp": "yarn build && yarn package"
   },
   "jest": {
     "collectCoverageFrom": [
