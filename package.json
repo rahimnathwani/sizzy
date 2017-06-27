@@ -16,10 +16,12 @@
     "babel-runtime": "6.23.0",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
     "chalk": "1.1.3",
+    "concurrently": "^3.5.0",
+    "cross-env": "^5.0.1",
     "css-loader": "0.28.1",
     "dotenv": "4.0.0",
     "electron": "^1.6.6",
-    "electron-packager": "^8.7.0",
+    "electron-builder": "^19.8.0",
     "eslint": "3.19.0",
     "eslint-config-react-app": "^1.0.4",
     "eslint-loader": "1.7.1",
@@ -46,6 +48,7 @@
     "style-loader": "0.17.0",
     "sw-precache-webpack-plugin": "0.9.1",
     "url-loader": "0.5.8",
+    "wait-on": "^2.0.2",
     "webpack": "2.5.1",
     "webpack-dev-server": "2.4.5",
     "webpack-manifest-plugin": "1.1.0",
@@ -55,6 +58,7 @@
     "director": "^1.2.8",
     "electron-debug": "^1.1.0",
     "electron-is-dev": "^0.1.2",
+    "electron-updater": "^2.4.3",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.4",
     "mobx": "^3.1.9",
@@ -72,7 +76,7 @@
     "valid-url": "^1.0.9"
   },
   "homepage": "./",
-  "main": "src/electron-starter.js",
+  "main": "public/electron.js",
   "babel": {
     "presets": [
       "react-app"
@@ -84,6 +88,11 @@
       "git add"
     ]
   },
+  "files": [
+    "app/**/*",
+    "node_modules/**/*",
+    "package.json"
+  ],
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
@@ -94,7 +103,26 @@
     "prettier-all": "prettier --single-quote --bracket-spacing=false --write 'src/**/*.js'",
     "precommit": "lint-staged",
     "checks": "yarn flow && yarn test",
-    "bnp": "yarn build && yarn package"
+    "bnp": "yarn build && yarn package",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3033 && electron .\"",
+    "electron-pack": "build --em.main=build/electron.js",
+    "electron-release": "build --em.main=build/electron.js --publish=always",
+    "preelectron-pack": "yarn build",
+    "preelectron-release": "yarn build"
+  },
+  "build": {
+    "appId": "com.example.electron-cra",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "publish": {
+      "provider": "github"
+    }
   },
   "jest": {
     "collectCoverageFrom": [
