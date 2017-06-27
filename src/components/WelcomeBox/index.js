@@ -64,7 +64,8 @@ class WelcomeBoxComponent extends Component {
           <IntroText> Welcome to Sizzy! Enter an url to start: </IntroText>
 
           <MobileText>
-            A developer tool for testing responsive design on multiple devices at once.
+            A developer tool for testing responsive design on multiple devices
+            at once.
           </MobileText>
 
           <OnlyAvailable>
@@ -83,6 +84,7 @@ class WelcomeBoxComponent extends Component {
         </Content>
 
         {!loading &&
+          !window.isElectron &&
           <MadeBy target="_blank" href="https://kitze.io">
             made by @thekitze
           </MadeBy>}

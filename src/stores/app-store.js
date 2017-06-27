@@ -157,7 +157,9 @@ class AppStore {
 
       //if invalid url (doesn't have protcol), try to append current protocol
       if (!isWebUri(urlToLoad)) {
-        const urlWithProtocol = `${window.isElectron ? 'http:' : protocol}//${urlToLoad}`;
+        const urlWithProtocol = `${window.isElectron
+          ? 'http:'
+          : protocol}//${urlToLoad}`;
         urlToLoad = urlWithProtocol;
       }
 
@@ -210,13 +212,16 @@ class AppStore {
       this.urlToLoad = null;
       this.url = '';
       this.showWelcomeContent = true;
+      this.resetAllSettings();
     } else {
       window.location.href = window.location.origin;
     }
   };
 
   @action loadExampleUrl = () => {
-    const exampleUrl = `${window.isElectron ? 'http:' : window.location.protocol}//kitze.io`;
+    const exampleUrl = `${window.isElectron
+      ? 'http:'
+      : window.location.protocol}//kitze.io`;
     this.setUrl(exampleUrl);
     this.setUrltoLoad(exampleUrl, false, true);
   };
@@ -227,7 +232,8 @@ class AppStore {
 
   /* Computed */
 
-  @computed get filteredDeviceNames(): Array<string> {
+  @computed
+  get filteredDeviceNames(): Array<string> {
     let filteredDevices = filter(devices, device => {
       return (
         this.osFilters.shouldShow(device.os) &&
@@ -237,15 +243,18 @@ class AppStore {
     return map(filteredDevices, device => device.name);
   }
 
-  @computed get theme(): Object {
+  @computed
+  get theme(): Object {
     return themes[Object.keys(themes)[this.themeIndex]];
   }
 
-  @computed get isValidUrl(): boolean {
+  @computed
+  get isValidUrl(): boolean {
     return isWebUri(this.urlToLoad);
   }
 
-  @computed get urlIsLoaded(): boolean {
+  @computed
+  get urlIsLoaded(): boolean {
     return this.isValidUrl && this.loading === false;
   }
 
