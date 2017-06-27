@@ -2,6 +2,8 @@
   "name": "Sizzy",
   "version": "0.0.2",
   "private": true,
+  "author": "Kitze",
+  "description": "A tool for testing responsive websites crazy-fast",
   "devDependencies": {
     "autoprefixer": "7.1.0",
     "babel-core": "6.24.1",
@@ -63,6 +65,7 @@
     "lodash": "^4.17.4",
     "mobx": "^3.1.9",
     "mobx-react": "^4.1.8",
+    "node-notifier": "^5.1.2",
     "normalize.css": "^5.0.0",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.5.2",
