@@ -11,8 +11,8 @@ class Device {
     portrait: string,
     landscape: string
   };
-  id: ?string;
-
+  id: string;
+  userAgent: string;
   settings: Settings = new Settings();
 
   constructor(device: Object) {
@@ -22,6 +22,7 @@ class Device {
     this.height = device.height;
     this.iconName = device.iconName;
     this.id = device.id;
+    this.userAgent = device.userAgent;
     this.keyboardImg = device.keyboardImg;
   }
 }

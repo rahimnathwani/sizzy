@@ -65,6 +65,7 @@ class SizzyComponent extends Component {
           <Devices hasFocusedDevice={!!focusedDeviceId}>
             {devices.map((device, key) => (
               <Device
+                isElectron={window.isElectron}
                 key={key}
                 appHasFocusedDevice={!!focusedDeviceId}
                 toggleFocusDevice={app.toggleFocusDevice}

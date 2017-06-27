@@ -8,6 +8,9 @@ import {
   cond
 } from 'utils/sc-utils';
 
+//external
+import $Icon from 'react-fontawesome';
+
 //classnames
 export const buttonIconClassname = 'c-device__button-icon';
 
@@ -18,9 +21,6 @@ const sizes = {
   }
 };
 
-//external
-import $Icon from 'react-fontawesome';
-
 export const Device = styled.div`
   ${flex.vertical}
   ${p => cond(!p.appHasFocusedDevice, `
@@ -30,26 +30,22 @@ export const Device = styled.div`
 `;
 
 export const Header = styled.div`
-  ${flex.horizontal}
-  ${flex.centerHorizontal}
-  ${flex.spaceBetween}
+  ${flex.vertical}
+  ${flex.centerVerticalV}
   height: ${deviceHeader.height}px;
   width: 100%;
-  margin-bottom: 15px;
 `;
 
 export const Name = styled.div`
   font-size: ${p => (p.small ? 12 : 15)}px;
   font-weight: 400;
   color: ${p => p.theme.color};
-  text-align: center;
-  flex: 1;
 `;
 
 export const Buttons = styled.div`
   ${flex.horizontal}
-  ${flex.centerHorizontalV}
   flex: 1;
+  margin-top: 8px;
 `;
 
 export const Button = styled.div`
@@ -75,6 +71,11 @@ export const Button = styled.div`
     color: rgba(255, 255, 255, 0.8);
   `)}
   
+  ${p => cond(p.disabled, `
+    cursor: default;
+    opacity: 0.2;
+  `)}
+  
    ${p => cond(p.value === true, `
       .${buttonIconClassname}{
         color: rgba(255, 255, 255, 0.8);
@@ -82,12 +83,12 @@ export const Button = styled.div`
    `)}
 `;
 
-export const Size = styled.div`
+export const Size = styled.span`
   ${flex.horizontal}
-  ${flex.justifyEnd}
   font-size: 11px;
-  color: white;
+  color: #778398;
   flex: 1;
+  margin-left: 7px;
 `;
 
 export const ButtonIcon = styled($Icon)`
@@ -102,4 +103,26 @@ export const Keyboard = styled.img`
   position: absolute;
   bottom: 0;
   z-index: 999;
+`;
+
+export const WhiteOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 9999999999;
+`;
+
+export const NameAndSize = styled.div`
+  ${flex.horizontal}  
+  ${flex.centerHorizontalV}  
+  width: 100%;
+`;
+
+export const FrameWrap = styled.div`
+  position: absolute;
 `;

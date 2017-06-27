@@ -48,3 +48,23 @@ body.hide-scroll {
   opacity: 0;
   transition: opacity 400ms ease-in;
 }
+
+/* screenshot */
+
+.screenshot-enter {
+  opacity: 0.01;
+}
+
+.screenshot-enter.screenshot-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-in;
+}
+
+.screenshot-leave {
+  opacity: 1;
+}
+
+.screenshot-leave.screenshot-leave-active {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}

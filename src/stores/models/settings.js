@@ -31,8 +31,6 @@ class Settings {
     showSizes,
     showKeyboard
   }: DeviceSettings) => {
-    console.log('showKeyboard', showKeyboard);
-
     if (zoom !== undefined) {
       this.zoom = zoom;
     }

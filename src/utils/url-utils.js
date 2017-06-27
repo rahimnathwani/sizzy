@@ -1,4 +1,4 @@
-import PROTOCOLS from 'config/protocols';
+import PROTOCOLS from '../../src/config/protocols';
 import {isHttpsUri, isHttpUri} from 'valid-url';
 
 export const isUrlSameProtocol = (url: string, protocol: string) => {

@@ -12,12 +12,12 @@ export const Sidebar = styled.div`
   position: relative;
 
   ${p => {
-  const width = p.theme.sidebarFullSize ? 180 : 50;
-  return `
+    const width = p.theme.sidebarFullSize ? 180 : 50;
+    return `
       min-width: ${width}px;
       max-width: ${width}px;
      `;
-}}
+  }}
 
   background-color: #242831;
   border-right: 1px solid #1b1e25;

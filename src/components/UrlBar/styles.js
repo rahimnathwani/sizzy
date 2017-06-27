@@ -29,9 +29,9 @@ export const UrlInput = styled.input`
   font-size: 15px;
   line-height: 15px;
   padding: ${p => {
-  const {padding = sizes.urlInput.padding} = p.styles || {};
-  return `0 ${sizes.goIcon.size + sizes.goIcon.offsetRight * 2}px 0 ${padding}px;`;
-}}
+             const {padding = sizes.urlInput.padding} = p.styles || {};
+             return `0 ${sizes.goIcon.size + sizes.goIcon.offsetRight * 2}px 0 ${padding}px;`;
+           }}
   border: none;
   border-bottom-color: #825acb;
   border-radius: 5px;
@@ -51,13 +51,13 @@ export const GoIcon = styled($Icon)`
   margin: auto;
   
   ${p => {
-  const iconSizes = p.styles && p.styles.sizes ? p.styles.sizes : sizes.goIcon;
+    const iconSizes = p.styles && p.styles.sizes ? p.styles.sizes : sizes.goIcon;
 
-  return `
+    return `
       right: ${iconSizes.offsetRight}px;
       ${iconSize(iconSizes.size)}
     `;
-}}
+  }}
 
   transition: color 100ms linear;
   

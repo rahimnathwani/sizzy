@@ -15,7 +15,7 @@ declare module 'styled-components' {
     ...interpolations: Array<Interpolation>
   ) => ReactClass<*>;
 
-  declare type Theme = { [key: string]: mixed };
+  declare type Theme = {[key: string]: mixed};
   declare type ThemeProviderProps = {
     theme: ((outerTheme: Theme) => void) | Theme
   };

@@ -9,6 +9,7 @@ const questions = [
         Some websites are configured to prevent embedding into another site. Sizzy is showing the "devices" by embedding a website in multiple iframes.
         Unfortunately, this is configured from their side and there's nothing we can do about it, at least in the web version of Sizzy.
         The
+
         {' '}
         <a
           target="_blank"
@@ -16,7 +17,9 @@ const questions = [
         >
           Chrome Extension
         </a>
-        {' '}can overcome this problem on
+        {' '}
+
+        can overcome this problem on
         <i><b> some </b></i>
         websites, but not on all of them.
       </div>
@@ -30,9 +33,9 @@ const questions = [
         The app is missing a few core features in order to represent 100% of what's on an actual device:
         <ul>
           <li>
-            {' '}
+
             Simulate real user agents (some devices aren't using media queries to optimize a mobile website, but are switching between desktop/mobile version based on the user agent)
-            {' '}
+
           </li>
           <li> Take into consideration device pixel ratio </li>
           <li> Scrollbars of the devices (iframes) are using viewport size </li>
@@ -85,11 +88,11 @@ const questions = [
         Keep in mind that the link must start with https:// or http://.
         You cannot point to an index.html file that's starting with file://.
         If you need a simple server to run your local files you can use
-        {' '}
+
         <a href="https://www.npmjs.com/package/http-server" target="_blank">
-          http-server
+          {' '}http-server{' '}
         </a>
-        {' '}
+
         (a zero-configuration command-line http server).
         Just start http-server, point it to the folder of your website and it will serve your app on http://localhost:8080. Then you can paste http://localhost:8080 in the url bar of Sizzy.
       </div>
@@ -100,13 +103,12 @@ const questions = [
     title: `Why is Webpack + Hot Module Reloading not working?`,
     answer: (
       <div>
-        The problem is better explained in <a
+        The problem is better explained in {' '}<a
           href="https://github.com/kitze/sizzy/issues/21"
           target="_blank"
         >
           this issue
-        </a> on GitHub.
-
+        </a>{' '} on GitHub.
         Basically HMR in Webpack doesn't work accross different domains, so when you're developing an app locally and previewing it on Sizzy, HMR breaks (you can see the errors in the console).
         Hopefully we'll find a fix for this soon.
       </div>
@@ -118,6 +120,7 @@ const questions = [
     answer: (
       <div>
         First of all, you can keep your piece of mind because the extension is
+
         {' '}
         <a
           href="https://github.com/kitze/sizzy/tree/master/chrome-extension"
@@ -125,7 +128,9 @@ const questions = [
         >
           open sourced
         </a>
-        , so you can explore it and see what it does.
+        {', '}
+
+        so you can explore it and see what it does.
 
         The extension has 2 basic functionalities:
         <ol>
@@ -134,11 +139,12 @@ const questions = [
           </li>
           <li>
             It blocks "x-frame-options" headers from the requests, so you can embed most of the websites that prevent embedding.
-            {' '}
+
           </li>
         </ol>
 
         In order to block the headers from some requests, Chrome requires
+
         {' '}
         <a
           href="https://github.com/kitze/sizzy/blob/master/chrome-extension/manifest.json#L19"
@@ -147,6 +153,7 @@ const questions = [
           the following permissions:
         </a>
         {' '}
+
         {`"[ "activeTab", "webRequest", "webRequestBlocking", "<all_urls>" ]`}
 
         I would understand your concern if the extension had a closed source, but in this case you have nothing to worry about.
@@ -160,19 +167,32 @@ const questions = [
     answer: (
       <div>
         Currently, this project is being developed mostly
+
         {' '}
-        <a href="https://kitze.io">by 1 person</a>
-        .
-        Development will continue as usual but it would help greatly if you support this project with a one-time, or a recurring donation
-        {' '}
-        <a target="_blank" href="https://opencollective.com/sizzy">
-          {' '}on OpenCollective
+        <a href="https://kitze.io" target="_blank" rel="noopener noreferrer">
+          by 1 person
         </a>
-        .
-        If you would like to discuss about a different way of supporting Sizzy, you can
+        {'. '}
+        Development will continue as usual but it would help greatly if you support this project with a one-time, or a recurring donation
+
         {' '}
-        <a target="_blank" href="https://kitze.io"> contact me here</a>
-        .
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://opencollective.com/sizzy"
+        >
+          on OpenCollective
+        </a>
+        {'. '}
+
+        If you would like to discuss about a different way of supporting Sizzy, you can
+
+        {' '}
+        <a target="_blank" rel="noopener noreferrer" href="https://kitze.io">
+          contact me here
+        </a>
+        {'. '}
+
       </div>
     )
   }

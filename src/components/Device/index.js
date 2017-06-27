@@ -1,6 +1,7 @@
 // @flow
 import Settings from 'stores/models/settings';
 import DeviceType from 'stores/models/device';
+import {action, observable} from 'mobx';
 
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
@@ -9,6 +10,7 @@ import ORIENTATIONS from 'config/orientations';
 
 //external
 import Framed from 'react-frame-component';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 //styled-components
 import {
@@ -20,8 +22,14 @@ import {
   Buttons,
   Size,
   buttonIconClassname,
-  Keyboard
+  Keyboard,
+  WhiteOverlay,
+  FrameWrap,
+  NameAndSize
 } from './styles';
+
+//electron
+const {os, fs} = window;
 
 type Props = {
   device: DeviceType,
@@ -32,16 +40,61 @@ type Props = {
   urlToLoad: string,
   toggleFocusDevice: (deviceId: ?string) => any,
   appHasFocusedDevice: boolean,
-  devicesSpaceHeight: number
+  devicesSpaceHeight: number,
+  isElectron: boolean
 };
 
 @observer class DeviceComponent extends Component {
   props: Props;
   settings: Settings = new Settings();
+  webview: Object;
+  @observable takingScreenshot = false;
+
+  setWebView = (webview: Object) => {
+    if (webview) {
+      this.webview = webview;
+      this.webview.addEventListener('did-stop-loading', () => {
+        let webContents = this.webview.getWebContents();
+        webContents.enableDeviceEmulation({
+          screenPosition: 'mobile'
+        });
+      });
+    }
+  };
+
+  @action takeSnapshot = () => {
+    this.takingScreenshot = true;
+    this.webview.capturePage(image => {
+      const date = new Date();
+      const dateFormat = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      const directory = `${os.homedir()}/Sizzy`;
+      if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory);
+      }
+      fs.writeFile(
+        `${directory}/sizzy_${this.props.device.id}_${dateFormat}_screenshot.png`,
+        image.toPNG(),
+        err => {
+          if (err) throw err;
+          setTimeout(() => {
+            this.takingScreenshot = false;
+          }, 500);
+        }
+      );
+    });
+  };
 
   render() {
     const {
-      device: {width, name, height, settings, keyboardImg, id: deviceId},
+      device: {
+        width,
+        name,
+        userAgent,
+        height,
+        settings,
+        keyboardImg,
+        id: deviceId
+      },
       children,
       theme,
       visible,
@@ -49,7 +102,8 @@ type Props = {
       urlToLoad,
       toggleFocusDevice,
       appHasFocusedDevice,
-      devicesSpaceHeight
+      devicesSpaceHeight,
+      isElectron
     } = this.props;
 
     const {orientation, zoom, showSizes, showKeyboard} = settings;
@@ -75,15 +129,13 @@ type Props = {
     //highly dynamic styles must be inline
     const frameProps = {
       style: {
-        transform: `scale(${zoomValue})`,
-        transformOrigin: 'top left',
-        position: 'absolute',
         border: 'none',
-        top: deviceHeaderTotalHeight,
         left: 0,
         borderRadius: 3,
-        backgroundColor: 'white',
-        ...theme.iframeStyle
+        ...theme.iframeStyle,
+        width: iframeWidth,
+        height: iframeHeight,
+        backgroundColor: 'white'
       },
       width: `${iframeWidth}px`,
       height: `${iframeHeight}px`
@@ -104,28 +156,47 @@ type Props = {
 
     return (
       <Device appHasFocusedDevice={appHasFocusedDevice} style={deviceStyle}>
-        <Header>
-          <Buttons>
-            {!smallZoom &&
-              <Button
-                onClick={() => toggleFocusDevice(deviceId)}
-                title="Settings"
-              >
-                <ButtonIcon className={buttonIconClassname} name="bullseye" />
-              </Button>}
 
-            {!smallZoom &&
+        <Header>
+          <NameAndSize>
+            <Name small={smallZoom}> {name} </Name>
+            <Size>
+              {showSize && <span> {'('}{width} x {height}{')'}</span>}
+            </Size>
+          </NameAndSize>
+
+          <Buttons>
+            <Button
+              onClick={() => toggleFocusDevice(deviceId)}
+              title="Settings"
+            >
+              <ButtonIcon className={buttonIconClassname} name="bullseye" />
+            </Button>
+
+            {isElectron &&
               <Button
-                value={settings.showKeyboard}
-                onClick={settings.toggleKeyboard}
-                title="Keyboard"
+                disabled={this.takingScreenshot}
+                onClick={this.takeSnapshot}
+                title="Camera"
               >
                 <ButtonIcon
+                  fontSize={13}
                   className={buttonIconClassname}
-                  fontSize={14}
-                  name="keyboard-o"
+                  name="camera"
                 />
               </Button>}
+
+            <Button
+              value={settings.showKeyboard}
+              onClick={settings.toggleKeyboard}
+              title="Keyboard"
+            >
+              <ButtonIcon
+                className={buttonIconClassname}
+                fontSize={14}
+                name="keyboard-o"
+              />
+            </Button>
 
             <Button
               onClick={settings.toggleOrientation}
@@ -138,17 +209,38 @@ type Props = {
               />
             </Button>
           </Buttons>
-
-          <Name small={smallZoom}> {name} </Name>
-
-          <Size>
-            {showSize && <span>{width} x {height} </span>}
-          </Size>
         </Header>
 
         {urlToLoad &&
-          <div>
-            <iframe src={urlToLoad} {...frameProps} />
+          <FrameWrap
+            style={{
+              width: iframeWidth,
+              height: iframeHeight,
+              transform: `scale(${zoomValue})`,
+              top: deviceHeaderTotalHeight,
+              transformOrigin: 'top left'
+            }}
+          >
+            {!isElectron &&
+              <iframe title={name} src={urlToLoad} {...frameProps} />}
+
+            {isElectron &&
+              <webview
+                is
+                ref={this.setWebView}
+                useragent={userAgent}
+                src={urlToLoad}
+                {...frameProps}
+              />}
+
+            <ReactCSSTransitionGroup
+              transitionName="screenshot"
+              transitionEnterTimeout={200}
+              transitionLeaveTimeout={200}
+            >
+              {isElectron && this.takingScreenshot && <WhiteOverlay />}
+            </ReactCSSTransitionGroup>
+
             {shouldShowKeyboard &&
               <Keyboard
                 src={
@@ -158,7 +250,7 @@ type Props = {
                       : keyboardImg.portrait)
                 }
               />}
-          </div>}
+          </FrameWrap>}
 
         {/* Allows Sizzy to be used as a component/plugin in react-storybook, etc */}
         {hasChildren &&
