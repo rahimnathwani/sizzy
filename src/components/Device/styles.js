@@ -102,6 +102,7 @@ export const Keyboard = styled.img`
   width: 100%;
   position: absolute;
   bottom: 0;
+  left: 0;
   z-index: 999;
 `;
 
