@@ -1,6 +1,7 @@
 export const DEVICE_TYPES = {
   PHONE: 'phone',
-  TABLET: 'tablet'
+  TABLET: 'tablet',
+  TAILWIND: 'tailwind'
 };
 
 export const OS = {

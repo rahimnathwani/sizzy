@@ -78,7 +78,8 @@ const devices = {
     type: DEVICE_TYPES.TABLET,
     width: 768,
     height: 1024,
-    userAgent: 'Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+    userAgent:
+      'Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
     keyboardImg: {
       portrait: ipadAirKeyboardPortrait,
       landscape: ipadAirKeyboardLandscape
@@ -91,7 +92,8 @@ const devices = {
     type: DEVICE_TYPES.PHONE,
     width: 411,
     height: 731,
-    userAgent: 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3102.0 Mobile Safari/537.36'
+    userAgent:
+      'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3102.0 Mobile Safari/537.36'
   },
   galaxys4: {
     id: 'galaxys4',
@@ -100,7 +102,8 @@ const devices = {
     type: DEVICE_TYPES.PHONE,
     width: 360,
     height: 640,
-    userAgent: 'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3102.0 Mobile Safari/537.36'
+    userAgent:
+      'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3102.0 Mobile Safari/537.36'
   },
   nexus7: {
     id: 'nexus7',
@@ -109,7 +112,58 @@ const devices = {
     name: 'Nexus 7',
     width: 600,
     height: 960,
-    userAgent: 'Mozilla/5.0 (Linux; Android 4.3; Nexus 7 Build/JSS15Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3102.0 Safari/537.36'
+    userAgent:
+      'Mozilla/5.0 (Linux; Android 4.3; Nexus 7 Build/JSS15Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3102.0 Safari/537.36'
+  },
+  default: {
+    id: 'default',
+    os: OS.ANDROID,
+    type: DEVICE_TYPES.TAILWIND,
+    name: 'default Tailwind',
+    width: 414,
+    height: 590,
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'
+  },
+  sm: {
+    id: 'sm',
+    os: OS.ANDROID,
+    type: DEVICE_TYPES.TAILWIND,
+    name: 'sm Tailwind',
+    width: 640,
+    height: 800,
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'
+  },
+  md: {
+    id: 'md',
+    os: OS.ANDROID,
+    type: DEVICE_TYPES.TAILWIND,
+    name: 'md Tailwind',
+    width: 768,
+    height: 800,
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'
+  },
+  lg: {
+    id: 'lg',
+    os: OS.ANDROID,
+    type: DEVICE_TYPES.TAILWIND,
+    name: 'lg Tailwind',
+    width: 1024,
+    height: 800,
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'
+  },
+  xl: {
+    id: 'xl',
+    os: OS.ANDROID,
+    type: DEVICE_TYPES.TAILWIND,
+    name: 'xl Tailwind',
+    width: 1280,
+    height: 800,
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'
   }
 };
 

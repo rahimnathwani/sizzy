@@ -63,7 +63,8 @@ class SidebarComponent extends Component {
 
           <Top>
 
-            <Label> {sidebarFullSize ? 'Filter devices by OS' : 'OS'} </Label>
+            <Label> {sidebarFullSize ? 'Filter devices by OS' : 'OS'}
+            {' '}</Label>
 
             <Filters>
               <FilterIcon
@@ -105,6 +106,16 @@ class SidebarComponent extends Component {
                     filterTypes.DEVICE_TYPE
                   )}
                 selected={deviceTypeFilters.contains(DEVICE_TYPES.TABLET)}
+                icon="tablet"
+              />
+              <FilterIcon
+                title="Toggle tailwind devices"
+                toggleFilterfn={() =>
+                  deviceTypeFilters.toggleFilter(
+                    DEVICE_TYPES.TAILWIND,
+                    filterTypes.DEVICE_TYPE
+                  )}
+                selected={deviceTypeFilters.contains(DEVICE_TYPES.TAILWIND)}
                 icon="tablet"
               />
             </Filters>
